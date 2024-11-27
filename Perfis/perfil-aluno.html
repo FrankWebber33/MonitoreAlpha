@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil: Aluno</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <svg class="notification-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                <circle cx="18" cy="4" r="3" fill="#ff4444">
+                </circle>
+            </svg>
+            
+            <div class="profile-content">
+                <div class="profile-img">
+                    <img id="user-avatar" src="https://thispersondoesnotexist.com/" alt="Foto do aluno" class="user-avatar">
+                </div>
+                
+                <div class="profile-info">
+                    <h2 id="user-name">Carregando...</h2>
+                    <p class="profile-type">Tipo de Perfil: Estudante</p>
+                    <div class="status-badge">Status: Ativo</div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="window.location.href='https://example.com/historico'">
+                    Histórico de Presença
+                </button>
+                <button class="btn btn-primary" onclick="window.location.href='https://example.com/horario'">
+                    Horário de Aula
+                </button>
+            </div>
+        </div>
+
+        <div class="qr-code-container">
+            <h3>Seu QR Code</h3>
+            <div class="qr-placeholder">
+                <img src="../img/qrcode-aluno.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para consumir a Random User API -->
+    <script>
+        // Seleciona elementos do DOM
+        const userNameElement = document.getElementById("user-name");
+        const userAvatarElement = document.getElementById("user-avatar");
+
+        // Função para obter dados da Random User API
+        function fetchRandomUser() {
+            fetch('https://randomuser.me/api/')
+                .then(response => response.json()) // Converte a resposta para JSON
+                .then(data => {
+                    // Extrai os dados do usuário
+                    const user = data.results[0];
+                    const fullName = `${user.name.first} ${user.name.last}`;
+                    const avatarUrl = user.picture.large;
+
+                    // Atualiza o nome e a imagem no HTML
+                    userNameElement.textContent = fullName;
+                    userAvatarElement.src = avatarUrl;
+                    userAvatarElement.alt = `Foto de ${fullName}`;
+                })
+                .catch(error => {
+                    console.error("Erro ao carregar os dados do usuário:", error);
+                    userNameElement.textContent = "Erro ao carregar nome";
+                });
+        }
+
+        // Chama a função ao carregar a página
+        window.onload = fetchRandomUser;
+    </script>
+</body>
+</html>
